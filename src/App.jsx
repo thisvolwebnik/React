@@ -1,19 +1,15 @@
-import {useState} from "react";
-import {Counter} from "./components/Counter";
+import "./styles/App.css";
+import {PostItem} from "./components/PostItem";
 
 function App() {
-  const [value, setValue] = useState("");
 
   return (
-    <>
-      <Counter/>
-      <h2>{value}</h2>
-      <input
-        type="text"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-      />
-    </>
+    <div className="App">
+      <PostItem/>
+      <PostItem/>
+      <PostItem/>
+      <PostItem/>
+    </div>
   )
 }
 
