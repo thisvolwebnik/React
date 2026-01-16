@@ -1,5 +1,7 @@
+import { Button } from "./UI/button/Button";
+
 export const PostItem = (props) => {
-  const { title, description, number } = props;
+  const { id, title, description, number, removePost } = props;
 
   return (
     <div className="post">
@@ -10,7 +12,13 @@ export const PostItem = (props) => {
         <div>{description}</div>
       </div>
       <div className="post__action">
-        <button type="button">Удалить</button>
+        <Button
+          onClick={() => {
+            removePost(id);
+          }}
+        >
+          Удалить
+        </Button>
       </div>
     </div>
   );

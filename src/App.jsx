@@ -1,8 +1,7 @@
 import "./styles/App.css";
 import { useState } from "react";
 import { PostList } from "./components/PostList";
-import { Button } from "./components/UI/button/Button";
-import { Input } from "./components/UI/input/Input";
+import { PostForm } from "./components/PostForm";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -22,36 +21,23 @@ function App() {
       description: "Go - Это язык программирования",
     },
   ]);
-  const [post, setPost] = useState({ title: "", description: "" });
 
-  const onClickAddNewPost = (event) => {
-    event.preventDefault();
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost]);
+  };
 
-    setPosts([...posts, { ...post, id: Date.now() }]);
+  const removePost = (postId) => {
+    setPosts(posts.filter((postItem) => postItem.id !== postId));
   };
 
   return (
     <div className="App">
-      <form>
-        <Input
-          type="text"
-          placeholder="Название поста"
-          value={post.title}
-          onChange={(event) => setPost({ ...post, title: event.target.value })}
-        />
-        <Input
-          type="text"
-          placeholder="Описание поста"
-          value={post.description}
-          onChange={(event) =>
-            setPost({ ...post, description: event.target.value })
-          }
-        />
-        <Button type="submit" onClick={onClickAddNewPost}>
-          Добавить пост
-        </Button>
-      </form>
-      <PostList posts={posts} title="Список постов" />
+      <PostForm createPost={createPost} />
+      {posts.length > 0 ? (
+        <PostList posts={posts} title="Список постов" removePost={removePost} />
+      ) : (
+        <h1 style={{ textAlign: "center" }}>Посты не найдены</h1>
+      )}
     </div>
   );
 }
