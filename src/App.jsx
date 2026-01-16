@@ -3,6 +3,7 @@ import {useState} from "react";
 function App() {
 
   const [count, setCount] = useState(0);
+  const [value, setValue] = useState("");
 
   function increment() {
     setCount(count + 1)
@@ -27,6 +28,12 @@ function App() {
       >
         Decrement
       </button>
+      <h2>{value}</h2>
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
     </>
   )
 }
