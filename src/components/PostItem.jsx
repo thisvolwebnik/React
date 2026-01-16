@@ -1,10 +1,11 @@
-export const PostItem = () => {
+export const PostItem = (props) => {
+  const { post } = props;
 
   return (
     <div className="post">
       <div className="post__content">
-        <strong>1. JavaScript</strong>
-        <div>JavaScript - Это язык программирования</div>
+        <strong>{post.id}. {post.title}</strong>
+        <div>{post.description}</div>
       </div>
       <div className="post__action">
         <button
