@@ -1,7 +1,7 @@
 import { Button } from "./UI/button/Button";
 
 export const PostItem = (props) => {
-  const { id, title, description, number, removePost } = props;
+  const { id, title, body, number, removePost } = props;
 
   return (
     <div className="post">
@@ -9,7 +9,7 @@ export const PostItem = (props) => {
         <strong>
           {number}. {title}
         </strong>
-        <div>{description}</div>
+        <div>{body}</div>
       </div>
       <div className="post__action">
         <Button
