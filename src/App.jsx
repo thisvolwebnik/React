@@ -8,22 +8,32 @@ import { Button } from "./components/UI/button/Button";
 import { usePosts } from "./hooks/usePosts";
 import PostService from "./API/PostService";
 import { Loader } from "./components/UI/Loader/Loader";
+import { getPageCount, getPagesArray } from "./utils/pages";
 
 function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modalVisible, setModalVisible] = useState(false);
+  const [totalPage, setTotalPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
   const [isLoadedPost, setIsLoadedPost] = useState(false);
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+  const pagesArray = getPagesArray(totalPage);
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [page]);
 
   async function getPosts() {
     setIsLoadedPost(true);
-    setPosts(await PostService.getAll());
+
+    const response = await PostService.getAll(limit, page);
+    const totalCount = response.headers["x-total-count"];
+
+    setPosts(response.data);
+    setTotalPage(getPageCount(totalCount, limit));
     setIsLoadedPost(false);
   }
 
@@ -34,6 +44,10 @@ function App() {
 
   const removePost = (postId) => {
     setPosts(posts.filter((postItem) => postItem.id !== postId));
+  };
+
+  const changePage = (page) => {
+    setPage(page);
   };
 
   return (
@@ -59,6 +73,24 @@ function App() {
           removePost={removePost}
         />
       )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 10,
+          margin: "30px 0",
+        }}
+      >
+        {pagesArray.map((pagination, index) => (
+          <Button
+            paginationActive={pagination === page}
+            key={index}
+            onClick={() => changePage(pagination)}
+          >
+            {pagination}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }

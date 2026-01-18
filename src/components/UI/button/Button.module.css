@@ -6,3 +6,8 @@
   border: 1px solid darkgreen;
   cursor: pointer;
 }
+
+.button.active {
+  color: white;
+  background: darkgreen;
+}
